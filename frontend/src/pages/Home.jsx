@@ -10,7 +10,7 @@ const Home = () => {
         <p className="text-white fw-lighter fs-4 p-3">
           Confused about your career ? Don't worry, Ally's got it figured!
         </p>
-        <a href="chat">
+        <a href="chat" className="log">
         <div class="sp mt-3">
           <button class="sparkle-button">
             <span class="spark"></span>
@@ -334,7 +334,7 @@ const Home = () => {
         <h4 className="text-white pt-4">
           Have an account ?{" "}
           <a href="google" className="text-white">
-            Log in
+          Log in
           </a>
         </h4>
       </div>

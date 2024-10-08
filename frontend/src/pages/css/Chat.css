@@ -16,7 +16,7 @@
     min-width: 120px;
     min-height: 40px;
     max-width: 300px;
-    max-height: 30px;
+    max-height: 40px;
 }
 
 .chatText{
@@ -29,6 +29,10 @@
 .downBar{
     height: 10%;
     background-color: #212229;
+}
+
+.midbar{
+  overflow: scroll;
 }
 
 .attach{
@@ -44,3 +48,118 @@
     width: 100%;
 }
 
+input#user-input {
+    flex-grow: 1; /* Adjusts size based on available space */
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+input#user-input::placeholder {
+    color: #888;
+}
+
+
+  
+  .chatName  {
+    position: relative;
+    border-radius: 20px;
+    padding: 10px;
+    min-width: 120px;
+    min-height: 40px;
+    max-width: 300px;
+    max-height: 40px;
+    background-color: white;
+    cursor: pointer;
+  }
+  
+  .chatText {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .edit-btn {
+    display: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding-right: 10px;
+  }
+  
+  .chatName-container:hover .edit-btn {
+    display: inline; /* Show on hover */
+  }
+  
+  .edit-chat-name {
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+    font-size: 1rem;
+    width:100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .edit-chat-name:focus {
+    outline: none;
+  }
+  
+
+  .save-btn, .cancel-btn{
+    border-radius: 30px;
+    margin-left: 10px;
+  }
+
+  .edit-container{
+    position:relative;
+    border-radius: 20px;
+    width: 250px;
+    min-height: 40px;
+    /* max-width: 300px; */
+    max-height: 40px;
+  }
+
+  /* Static top bar */
+.topBar {
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+/* Static bottom bar */
+.downBar {
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+/* Overflowing mid bar */
+.midBar {
+  flex-grow: 1; /* Allow it to grow and occupy the remaining space */
+  overflow-y: auto; /* Enable vertical scrolling */
+  width: 100%;
+}
+
+/* Message container for chat messages */
+.message-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* User and bot message styling */
+.message {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 80%;
+}
+
+.user-message {
+  align-self: flex-end;
+  background-color: #4a76a8;
+  color: white;
+}
+
+.bot-message {
+  align-self: flex-start;
+  background-color: #444;
+  color: white;
+}

@@ -3,6 +3,10 @@
     font-size: 3rem;
 }
 
+.log{
+    text-decoration: none;
+}
+
 .sparkle-button {
     --active: 0;
     --bg: radial-gradient(
