@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from './pages/Home';
 import About from './pages/About';
 import Test from './pages/Test';
+import Splash from './pages/Splash';
+import Chat from './pages/Chat';
 
 function App() {
 
@@ -11,8 +13,10 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* <Route path="/" element={<Test />} /> */}
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Splash />} />
+        <Route path="home" element={<Home />} />
         <Route path='about' element={<About/>} />
+        <Route path='chat' element={<Chat/>} />
       </Routes>
     </BrowserRouter>
     </>

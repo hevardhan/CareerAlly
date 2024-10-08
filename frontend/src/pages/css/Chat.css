@@ -1,0 +1,46 @@
+.left-arrow{
+    width: 25px;
+    height: 25px;
+    transition: 0.1s ease;
+}
+
+
+.left-arrow:hover, .attach:hover{
+    transform: scale(150%);
+    transition: 0.1s ease;
+}
+
+.chatName {
+    border-radius: 20px;
+    padding: 10px;
+    min-width: 120px;
+    min-height: 40px;
+    max-width: 300px;
+    max-height: 30px;
+}
+
+.chatText{
+    white-space: nowrap; /* Prevents text from wrapping */
+    overflow: hidden; /* Ensures content is clipped when overflowing */
+    text-overflow: ellipsis; /* Displays '...' when the text overflows */
+}
+
+
+.downBar{
+    height: 10%;
+    background-color: #212229;
+}
+
+.attach{
+    transition: 0.1s ease;
+    width:40px;
+}
+
+#user-input {
+    border: 1px solid #ddd;
+    border-radius: 50px;
+    padding-left: 15px;
+    margin: 20px;
+    width: 100%;
+}
+
