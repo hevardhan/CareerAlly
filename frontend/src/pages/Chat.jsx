@@ -5,7 +5,9 @@ const Chat = () => {
   return (
     <section className="d-flex flex-column justify-content-between align-items-center text-center vh-100">
       <div className="topBar d-flex justify-content-between align-items-center w-100 p-3">
+      <a href="home">
         <img src="left-arrow.svg" alt="" className="left-arrow" />
+        </a>
         <div className="chatName d-flex justify-content-center align-items-center bg-white">
           <p className="m-0 p-0 chatText">New Chat</p>
         </div>
