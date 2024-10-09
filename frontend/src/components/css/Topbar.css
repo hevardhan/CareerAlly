@@ -1,0 +1,44 @@
+.t1 img{
+  width: 50px;
+}
+
+.newChat-container{
+  width: 175px;
+  height: 50px;
+  background-color: #6849FF;
+  border-radius: 30px;
+  gap: 10px;
+  transition: transform 0.1s ease-in, box-shadow 0.1s ease-in;
+}
+
+.newChat-icon{
+  width: 40px;
+  height: 40px;
+  background-color: black;
+  border-radius: 25px;
+}
+
+.newChat-container:hover {
+  transform: scale(115%);
+  box-shadow: 0 0 15px 5px rgba(104, 73, 255, 0.7); /* Add glowing shadow effect */
+  transition: transform 0.1s ease-in, box-shadow 0.1s ease-in; /* Smooth transition for both */
+  cursor: pointer;
+}
+
+.search-icon{
+  width: 50px;
+}
+
+.search-icon svg{
+  width: 30px;
+  transition: 0.1s ease-in;
+}
+
+.search-icon svg:hover{
+  transform: scale(150%);
+  transition: 0.1s ease-in;
+}
+
+.t2 a{
+  text-decoration: none;
+}

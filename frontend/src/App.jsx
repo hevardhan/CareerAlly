@@ -6,6 +6,8 @@ import Test from './pages/Test';
 import Splash from './pages/Splash';
 import Chat from './pages/Chat';
 import Conversations from './pages/Conversations';
+import Connections from './pages/Connections';
+import Settings from './pages/Settings';
 
 function App() {
 
@@ -19,6 +21,8 @@ function App() {
         <Route path='about' element={<About/>} />
         <Route path='chat' element={<Chat/>} />
         <Route path='convo' element={<Conversations/>} />
+        <Route path='connect' element={<Connections/>} />
+        <Route path='settings' element={<Settings/>} />
       </Routes>
     </BrowserRouter>
     </>
