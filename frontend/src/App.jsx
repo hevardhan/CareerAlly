@@ -5,6 +5,7 @@ import About from './pages/About';
 import Test from './pages/Test';
 import Splash from './pages/Splash';
 import Chat from './pages/Chat';
+import Conversations from './pages/Conversations';
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
         <Route path="home" element={<Home />} />
         <Route path='about' element={<About/>} />
         <Route path='chat' element={<Chat/>} />
+        <Route path='convo' element={<Conversations/>} />
       </Routes>
     </BrowserRouter>
     </>
