@@ -48,15 +48,15 @@ const Chat = () => {
 
       // Simulate bot reply
       setTimeout(() => {
-        const botMessage = { text: "Sorry, I am still under development", sender: "bot" };
+        const botMessage = { text: "Meow Meow Nigga", sender: "bot" };
         setMessages([...newMessages, botMessage]); // Add bot reply after user message
-      }, 1000); // Simulate delay for bot response
+      }, 1); // Simulate delay for bot response
     }
   };
 
   return (
-    <section className="d-flex flex-column justify-content-between align-items-center text-center vh-100">
-      <div className="topBar d-flex justify-content-between align-items-center w-100 p-3">
+    <section className="justify-content-between align-items-center text-center vh-100">
+      <div className="topBar-chat d-flex justify-content-between align-items-center w-100 p-3">
         <a href="home">
           <img src="left-arrow.svg" alt="Back" className="left-arrow" />
         </a>
@@ -92,21 +92,22 @@ const Chat = () => {
           )}
         </div>
       </div>
-
-      <div className="midBar flex-grow-1 d-flex justify-content-center align-items-center w-100">
+          <div className="midBar-container">
+      <div className="midBar d-flex justify-content-center align-items-center">
         <div className="message-container w-100 d-flex flex-column align-items-start p-3 text-white">
           {messages.map((msg, index) => (
             <div
               key={index}
               className={`message ${msg.sender === "user" ? "user-message" : "bot-message"}`}
             >
-              <p>{msg.text}</p>
+              <p className="m-0 p-0 text-left">{msg.text}</p>
             </div>
           ))}
         </div>
       </div>
+          </div>
 
-      <div className="downBar d-flex justify-content-between align-items-center w-100 p-3">
+      <div className="downBar-chat d-flex justify-content-between align-items-center w-100 p-3">
         <div className="attach">
           <svg
             viewBox="0 0 24 24"
