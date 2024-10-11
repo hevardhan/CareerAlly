@@ -7,6 +7,15 @@
     text-decoration: none;
 }
 
+
+.log-in{
+  color: #007FFF;
+}
+
+.log-in:hover{
+  color: #F9F6EE;
+}
+
 .sparkle-button {
     --active: 0;
     --bg: radial-gradient(

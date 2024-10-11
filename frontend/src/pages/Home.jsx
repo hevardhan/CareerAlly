@@ -333,7 +333,7 @@ const Home = () => {
         </a>
         <h4 className="text-white pt-4">
           Have an account ?{" "}
-          <a href="convo" className="text-white">
+          <a href="convo" className="log-in">
           Log in
           </a>
         </h4>

@@ -26,7 +26,7 @@ if /i "%firstTime%"=="y" (
     npm install || (echo npm install failed & exit /b)
     
     echo Starting the development server...
-    start cmd /k "npm run dev"
+    start cmd /k "npm run dev -- --host"
 
     :: Wait for a few seconds to let the development server start
     timeout /t 5
@@ -34,7 +34,7 @@ if /i "%firstTime%"=="y" (
 ) else (
     :: If the user says no, just start the development server
     echo Starting the development server...
-    start cmd /k "npm run dev"
+    start cmd /k "npm run dev -- --host"
 
     :: Wait for a few seconds to let the server start
     timeout /t 2
