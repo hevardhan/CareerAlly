@@ -1,0 +1,5 @@
+.CBox-container {
+    overflow-x: auto; /* Enables horizontal scroll */
+    white-space: nowrap; /* Prevents child elements from wrapping */
+    scroll-behavior: smooth; /* Smooth scrolling effect */
+  }

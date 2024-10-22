@@ -1,0 +1,11 @@
+.dbox-box{
+    height: 40px;
+    border-radius: 10px;
+    transition: 0.2s ease-in;
+}
+
+.dbox-box:hover {
+    box-shadow: 0 0 5px 2px rgba(255, 255, 255, 0.6);
+    transform: scale(102%);
+    transition: 0.2s ease-in;
+  }

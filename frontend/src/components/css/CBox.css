@@ -1,0 +1,42 @@
+.CBox {
+    height: 200px;
+    width: 200px;
+    border-radius: 30px;
+    display: flex; /* Enables flexbox */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    flex: 0 0 auto; /* Prevent shrinking */
+  }
+  
+  .inner-cbox-container {
+    width: 90%; /* Optional: Adjust size relative to CBox */
+  }
+  
+  .prof-pic {
+    height: 30%; /* 30% of CBox height */
+    width: 100%; /* Full width of inner container */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .prof-pic img {
+    height: 100%;
+    max-width: 80px; /* Constrain image size */
+    border-radius: 50%; /* Circular image */
+    object-fit: cover; /* Maintain aspect ratio */
+  }
+  
+  .btn-cbox {
+    border: none;
+    background-color: #f0f0f0;
+    border-radius: 30px; /* Match rounded design */
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .btn-cbox:hover {
+    background-color: #e0e0e0;
+  }
+  
