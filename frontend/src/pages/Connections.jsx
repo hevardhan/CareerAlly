@@ -7,9 +7,9 @@ const Connections = () => {
     <section>
     <div className="p-3">
     <Topbar title='Connections' imgPath='./man.png'/>
+    </div>
+    <div className="p-3">
     <ConnectBody />
-    {/* </div>
-    <div className="p-3"> */}
     </div>
      <DownBar page="page2"/>
 </section>

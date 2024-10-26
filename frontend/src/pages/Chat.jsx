@@ -45,12 +45,20 @@ const Chat = () => {
       const newMessages = [...messages, { text: userInput, sender: "user" }];
       setMessages(newMessages); // Add user message to state
       setUserInput(""); // Clear input
-
+  
+      // Define sarcastic replies
+      const botReplies = [
+        "I'm under heavy construction 🚧. Please hold your excitement!",
+        "Working on it... in my dreams. Come back later 😴.",
+        "Who knew being a bot was this hard? Stay tuned 🤖."
+      ];
+  
       // Simulate bot reply
       setTimeout(() => {
-        const botMessage = { text: "Meow Meow Nigga", sender: "bot" };
+        const randomReply = botReplies[Math.floor(Math.random() * botReplies.length)];
+        const botMessage = { text: randomReply, sender: "bot" };
         setMessages([...newMessages, botMessage]); // Add bot reply after user message
-      }, 1); // Simulate delay for bot response
+      }, 1); // Simulate slight delay for bot response
     }
   };
 
