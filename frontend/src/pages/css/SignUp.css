@@ -1,0 +1,97 @@
+@media (max-width: 412px) {
+    .w-sm-100 {
+        width: 100% !important;
+    }
+}
+/* From Uiverse.io by Voxybuns */ 
+button {
+    /* Variables */
+    --button_radius: 0.75em;
+    --button_color: #e8e8e8;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: var(--button_radius);
+    background: var(--button_outline_color);
+  }
+  
+  .button_top {
+    display: block;
+    box-sizing: border-box;
+    border: 2px solid var(--button_outline_color);
+    border-radius: var(--button_radius);
+    padding: 0.75em 1.5em;
+    background: var(--button_color);
+    color: var(--button_outline_color);
+    transform: translateY(-0.2em);
+    transition: transform 0.1s ease;
+  }
+  
+  button:hover .button_top {
+    /* Pull the button upwards when hovered */
+    transform: translateY(-0.33em);
+  }
+  
+  button:active .button_top {
+    /* Push the button downwards when pressed */
+    transform: translateY(0);
+  }
+  
+
+  .divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1;
+    border-bottom: 2px solid #ccc;
+}
+
+.divider:not(:empty)::before {
+    margin-right: 10px;
+}
+
+.divider:not(:empty)::after {
+    margin-left: 10px;
+}
+
+  .socials {
+    color: black;
+    font-size: 30px;
+    border-radius: 30px;
+    width: 60px;
+    height: 60px;
+    background-color: white;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
+
+  .ss{
+    height: 100vh;
+  }
+
+  /* Add these styles in your CSS file */
+
+/* Apply styles based on screen width */
+@media (max-width: 768px) {
+  .dis {
+    font-size: 3rem; /* Apply smaller size for mobile */
+  }
+}
+
+@media (min-width: 769px) {
+  .dis {
+    font-size: 3rem; /* Apply larger size for desktop */
+  }
+}
+
+.left-img{
+  border-radius: 100px;
+}

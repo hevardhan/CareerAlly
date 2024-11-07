@@ -8,6 +8,7 @@ import Chat from './pages/Chat';
 import Conversations from './pages/Conversations';
 import Connections from './pages/Connections';
 import Settings from './pages/Settings';
+import SignUp from './pages/SignUp';
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         {/* <Route path="/" element={<Test />} /> */}
         <Route path="/" element={<Splash />} />
+        <Route path="signup" element={<SignUp />} />
         <Route path="home" element={<Home />} />
         <Route path='about' element={<About/>} />
         <Route path='chat' element={<Chat/>} />
