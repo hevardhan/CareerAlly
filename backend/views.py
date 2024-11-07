@@ -10,7 +10,7 @@ import numpy as np
 
 
 def html(request):
+   x = 3
+   y = 4
    
-   
-   
-   return HttpResponse("Hello World")
+   return HttpResponse(x+y)
