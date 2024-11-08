@@ -9,8 +9,20 @@ import Conversations from './pages/Conversations';
 import Connections from './pages/Connections';
 import Settings from './pages/Settings';
 import SignUp from './pages/SignUp';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function App() {
+  
+  useEffect(() => {
+    const fetchData = async () => {
+        const response = await axios.post('http://127.0.0.1:8000/api/chatbot/', {
+          message:'Hi who are you ?'
+        });
+        console.log(response.data.result);
+    };
+    fetchData();  // Call async function inside useEffect
+  }, []);
 
   return (
     <>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "./css/Chat.css";
 
 const Chat = () => {
@@ -40,25 +41,26 @@ const Chat = () => {
     setUserInput(e.target.value);
   };
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (userInput.trim()) {
       const newMessages = [...messages, { text: userInput, sender: "user" }];
       setMessages(newMessages); // Add user message to state
       setUserInput(""); // Clear input
-  
-      // Define sarcastic replies
-      const botReplies = [
-        "I'm under heavy construction 🚧. Please hold your excitement!",
-        "Working on it... in my dreams. Come back later 😴.",
-        "Who knew being a bot was this hard? Stay tuned 🤖."
-      ];
-  
-      // Simulate bot reply
-      setTimeout(() => {
-        const randomReply = botReplies[Math.floor(Math.random() * botReplies.length)];
-        const botMessage = { text: randomReply, sender: "bot" };
+
+      try {
+        // Call the API with the user's message
+        const response = await axios.post('http://127.0.0.1:8000/api/chatbot/', {
+          message: userInput
+        });
+
+        // Log and set the bot response to the state
+        const botMessage = { text: response.data.result, sender: "bot" };
         setMessages([...newMessages, botMessage]); // Add bot reply after user message
-      }, 1); // Simulate slight delay for bot response
+      } catch (error) {
+        console.error("Error fetching data from API:", error);
+        const errorMessage = { text: "Oops! Something went wrong. Please try again later.", sender: "bot" };
+        setMessages([...newMessages, errorMessage]); // Add error message if API fails
+      }
     }
   };
 
@@ -100,20 +102,21 @@ const Chat = () => {
           )}
         </div>
       </div>
-          <div className="midBar-container">
-      <div className="midBar d-flex justify-content-center align-items-center">
-        <div className="message-container w-100 d-flex flex-column align-items-start p-3 text-white">
-          {messages.map((msg, index) => (
-            <div
-              key={index}
-              className={`message ${msg.sender === "user" ? "user-message" : "bot-message"}`}
-            >
-              <p className="m-0 p-0 text-left">{msg.text}</p>
-            </div>
-          ))}
+
+      <div className="midBar-container">
+        <div className="midBar d-flex justify-content-center align-items-center">
+          <div className="message-container w-100 d-flex flex-column align-items-start p-3 text-white">
+            {messages.map((msg, index) => (
+              <div
+                key={index}
+                className={`message ${msg.sender === "user" ? "user-message" : "bot-message"}`}
+              >
+                <p className="m-0 p-0 text-left">{msg.text}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-          </div>
 
       <div className="downBar-chat d-flex justify-content-between align-items-center w-100 p-3">
         <div className="attach">
@@ -126,9 +129,9 @@ const Chat = () => {
             <path
               d="M17.5 5.25581V16.5C17.5 19.5376 15.0376 22 12 22C8.96243 22 6.5 19.5376 6.5 16.5V5.66667C6.5 3.64162 8.14162 2 10.1667 2C12.1917 2 13.8333 3.64162 13.8333 5.66667V16.4457C13.8333 17.4583 13.0125 18.2791 12 18.2791C10.9875 18.2791 10.1667 17.4583 10.1667 16.4457V6.65116"
               stroke="#ffffff"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             ></path>
           </svg>
         </div>
@@ -149,9 +152,9 @@ const Chat = () => {
             <path
               d="M20 12L4 4L6 12M20 12L4 20L6 12M20 12H6"
               stroke="#ffffff"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             ></path>
           </svg>
         </div>
