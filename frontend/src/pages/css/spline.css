@@ -1,8 +1,8 @@
 .spline-container {
-  position: relative;
+  position: fixed;
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .spline-container .spline {
@@ -43,6 +43,7 @@
 .spline-button:hover{
   transform: scale(110%);
   transition: 0.1s ease-in;
+  cursor: pointer;
 }
 
 .spline-button:active{
@@ -50,3 +51,23 @@
   transition: 0.1s ease-in;
 }
 
+.nav-link {
+  position: relative;
+  color: white;
+  text-decoration: none;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: white;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
