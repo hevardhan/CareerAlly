@@ -2,6 +2,10 @@ import React from 'react'
 import Spline from '@splinetool/react-spline';
 import './css/spline.css'
 import { useNavigate } from 'react-router-dom';
+
+
+
+
 const HomeSpline = () => {
   const navigate = useNavigate();
   return (

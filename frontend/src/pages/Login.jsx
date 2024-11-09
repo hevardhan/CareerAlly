@@ -3,6 +3,9 @@ import Entry from "../components/Entry";
 import "./css/SignUp.css";
 import { SignIn_Email, SignIn_Github, SignIn_Google } from "../firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { auth, db } from "../firebase/firebase";
+import { setDoc, doc, getDoc } from "firebase/firestore";
 
 const Login = ({ onLogin }) => {
   const [formData, setFormData] = useState({
@@ -17,34 +20,95 @@ const Login = ({ onLogin }) => {
     }));
   };
 
+  const navigate = useNavigate();
+
+  // Handle login with email and password
   const handleSubmit = async () => {
+    if (!formData.email || !formData.password) {
+      toast.error("Please fill in both email and password");
+      return;
+    }
+
     try {
       await SignIn_Email(formData.email, formData.password);
-      onLogin(); // Update authentication state
-      console.log("Login successful"); // Log success message for email login
+      toast.success("Login Successful!");
+      navigate('/convo');
     } catch (error) {
+      if (error.code === 'auth/invalid-email') {
+        toast.error("Invalid email address. Please check your email.");
+      } else if (error.code === 'auth/user-not-found') {
+        toast.error("No user found with this email.");
+      } else if (error.code === 'auth/wrong-password') {
+        toast.error("Incorrect password. Please try again.");
+      } else {
+        toast.error("Login failed. Please try again later.");
+      }
       console.error("Failed to login:", error);
     }
   };
 
-  const navigate = useNavigate();
+  // Handle Google login and add user to the database if new
   const handleGoogleLogin = async () => {
     try {
-      await SignIn_Google();
-      onLogin(); // Update authentication state
-      console.log("Login successful with Google"); // Log success message for Google login
-      navigate('/chat')
+      const userCredential = await SignIn_Google();
+      const user = userCredential.user;
+
+      if (user) {
+        // Check if the user exists in the database
+        const userDoc = await getDoc(doc(db, "User", user.uid));
+        
+        if (!userDoc.exists()) {
+          // User does not exist, add user data to the database
+          await setDoc(doc(db, "User", user.uid), {
+            email: user.email,
+            username: user.uid, // Using user ID as the username for Google
+            displayName: user.displayName || "Anonymous", // Default display name if not provided
+          });
+          toast.success("New user added to database.");
+        }
+
+        toast.success("Login successful with Google");
+        navigate('/convo');
+      }
     } catch (error) {
+      if (error.code === 'auth/popup-closed-by-user') {
+        toast.error("Login attempt was canceled.");
+      } else {
+        toast.error("Google login failed. Please try again.");
+      }
       console.error("Google login failed:", error);
     }
   };
 
+  // Handle GitHub login and add user to the database if new
   const handleGithubLogin = async () => {
     try {
-      await SignIn_Github();
-      onLogin(); // Update authentication state
-      console.log("Login successful with GitHub"); // Log success message for GitHub login
+      const userCredential = await SignIn_Github();
+      const user = userCredential.user;
+
+      if (user) {
+        // Check if the user exists in the database
+        const userDoc = await getDoc(doc(db, "User", user.uid));
+        
+        if (!userDoc.exists()) {
+          // User does not exist, add user data to the database
+          await setDoc(doc(db, "User", user.uid), {
+            email: user.email,
+            username: user.uid, // Using user ID as the username for GitHub
+            displayName: user.displayName || "Anonymous", // Default display name if not provided
+          });
+          toast.success("New user added to database.");
+        }
+
+        toast.success("Login successful with GitHub");
+        navigate('/convo');
+      }
     } catch (error) {
+      if (error.code === 'auth/popup-closed-by-user') {
+        toast.error("Login attempt was canceled.");
+      } else {
+        toast.error("GitHub login failed. Please try again.");
+      }
       console.error("GitHub login failed:", error);
     }
   };

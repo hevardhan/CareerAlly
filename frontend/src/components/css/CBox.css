@@ -6,6 +6,7 @@
     align-items: center; /* Center vertically */
     justify-content: center; /* Center horizontally */
     flex: 0 0 auto; /* Prevent shrinking */
+    border: solid 1.5px white;
   }
   
   .inner-cbox-container {

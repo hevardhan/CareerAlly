@@ -1,12 +1,24 @@
 import React from "react";
 import "./css/Topbar.css";
+import { signOut } from 'firebase/auth';
+import { auth } from "../firebase/firebase";
+import { toast } from "react-toastify";
 
 const Topbar = (props) => {
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      console.log('User logged out');
+      toast("Log Out Successful ! See you again 👋")
+    } catch (error) {
+      console.error('Error logging out: ', error);
+    }
+  };
   return (
     <div className="topBar">
       <div className="t1 d-flex justify-content-between align-items-center">
           <p className="text-white display-4 fw-normal m-0 p-0">{props.title}</p>
-          <img src={props.imgPath} alt="" srcset="" />
+          <img src={props.imgPath} alt="" srcset="" onClick={handleLogout}/>
       </div>
       <div className="t2 d-flex justify-content-between align-items-center mt-3">
           <a href="chat">

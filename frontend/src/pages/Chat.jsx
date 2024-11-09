@@ -121,7 +121,7 @@ const Chat = () => {
   return (
     <section className="justify-content-between align-items-center text-center vh-100">
       <div className="topBar-chat d-flex justify-content-between align-items-center w-100 p-3">
-        <a href="home">
+        <a href="convo">
           <img src="left-arrow.svg" alt="Back" className="left-arrow" />
         </a>
         <div className="chatName-container d-flex justify-content-center align-items-center">

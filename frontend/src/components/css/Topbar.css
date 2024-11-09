@@ -5,7 +5,7 @@
 .newChat-container{
   width: 175px;
   height: 50px;
-  background-color: #6849FF;
+  background-color: #3700B3;
   border-radius: 30px;
   gap: 10px;
   transition: transform 0.1s ease-in, box-shadow 0.1s ease-in;
@@ -20,9 +20,15 @@
 
 .newChat-container:hover {
   transform: scale(115%);
-  box-shadow: 0 0 15px 5px rgba(104, 73, 255, 0.7); /* Add glowing shadow effect */
+  box-shadow: 0 0 15px 5px #3700B3; /* Add glowing shadow effect */
   transition: transform 0.1s ease-in, box-shadow 0.1s ease-in; /* Smooth transition for both */
   cursor: pointer;
+}
+
+.newChat-container:active {
+  transform: scale(100%);
+  transition: transform 0.1s ease-in, box-shadow 0.1s ease-in; /* Smooth transition for both */
+
 }
 
 .search-icon{
@@ -41,4 +47,8 @@
 
 .t2 a{
   text-decoration: none;
+}
+
+.topBar img {
+  cursor: pointer;
 }

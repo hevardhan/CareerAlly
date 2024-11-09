@@ -5,7 +5,7 @@ import ConvoBody from '../components/ConvoBody'
 
 const Conversations = () => {
   return (
-    <section>
+    <section className=''>
         <div className="p-3">
         <Topbar title='Conversations' imgPath='./man.png'/>
         </div>
