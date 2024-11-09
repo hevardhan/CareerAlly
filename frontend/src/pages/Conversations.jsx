@@ -10,7 +10,7 @@ const Conversations = () => {
         <Topbar title='Conversations' imgPath='./man.png'/>
         </div>
         <div className='p-3'>
-        <ConvoBody />
+        {/* <ConvoBody /> */}
         </div>
         <DownBar page="page1"/>
     </section>

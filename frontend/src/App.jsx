@@ -11,18 +11,10 @@ import Settings from './pages/Settings';
 import SignUp from './pages/SignUp';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Spline from './pages/spline';
 
 function App() {
   
-  useEffect(() => {
-    const fetchData = async () => {
-        const response = await axios.post('http://127.0.0.1:8000/api/chatbot/', {
-          message:'Hi who are you ?'
-        });
-        console.log(response.data.result);
-    };
-    fetchData();  // Call async function inside useEffect
-  }, []);
 
   return (
     <>
@@ -34,6 +26,7 @@ function App() {
         <Route path="home" element={<Home />} />
         <Route path='about' element={<About/>} />
         <Route path='chat' element={<Chat/>} />
+        <Route path='spline' element={<Spline />} />
         <Route path='convo' element={<Conversations/>} />
         <Route path='connect' element={<Connections/>} />
         <Route path='settings' element={<Settings/>} />
