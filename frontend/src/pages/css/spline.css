@@ -1,30 +1,52 @@
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden; /* Prevent scrolling */
-  }
-  
-  .spline-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-  }
-  
-  .spline-container > div {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; /* Set Spline background behind content */
-  }
-  
-  .foreground-content {
-    position: relative;
-    z-index: 1; /* Bring the text content in front */
-    display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    height: 100%; /* Full height for centering */
-  }
+.spline-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.spline-container .spline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Ensures it’s behind the text */
+}
+
+.centered-text {
+  position: absolute;
+  bottom: 10%;
+  left: 0;
+  z-index: 1; 
+}
+
+.navbar {
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  /* transform: translate(-50%, -50%); */
+  z-index: 1;
+}
+
+
+.spline-button {
+  min-width: 120px;
+  max-width: auto;
+  border: 1px solid;
+  padding: 20px;
+  border-radius: 50px;
+  color: white;
+  transition: 0.1s ease-in;
+}
+
+.spline-button:hover{
+  transform: scale(110%);
+  transition: 0.1s ease-in;
+}
+
+.spline-button:active{
+  transform: scale(100%);
+  transition: 0.1s ease-in;
+}
+

@@ -23,10 +23,10 @@ function App() {
         {/* <Route path="/" element={<Test />} /> */}
         <Route path="/" element={<Splash />} />
         <Route path="signup" element={<SignUp />} />
-        <Route path="home" element={<Home />} />
+        <Route path="home" element={<Spline />} />
         <Route path='about' element={<About/>} />
         <Route path='chat' element={<Chat/>} />
-        <Route path='spline' element={<Spline />} />
+        {/* <Route path='spline' element={<Spline />} /> */}
         <Route path='convo' element={<Conversations/>} />
         <Route path='connect' element={<Connections/>} />
         <Route path='settings' element={<Settings/>} />
