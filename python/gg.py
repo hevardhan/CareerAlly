@@ -2,7 +2,7 @@ import pkg_resources
 
 # List of libraries to check
 libraries = [
-    'Django', 'djangorestframework', 'scikit-learn', 'ollama', 'pdfplumber', 'pandas'
+    'Django', 'djangorestframework', 'scikit-learn', 'ollama', 'pdfplumber', 'pandas', 'django-cors-headers'
 ]
 
 # Get and print the version for each library
