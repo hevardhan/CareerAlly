@@ -1,0 +1,40 @@
+Skill,Difficulty Level,Question,Choices,Answer
+Python,Simple,What is a variable in Python?,"a. A structure for repeating a set of actions, b. A reusable block of code that performs a specific task, c. A named reference to store data that can change over time, d. A collection of related Python code organized into a single file. ",c
+Python,Medium,What is a lambda function?,"a. Named function, b. Anonymous function, c. Class, d. Module",b
+Python,Hard,Explain Python's GIL.,"a. Global Instance Lock, b. Global Interpreter Lock, c. Global Integer Lock, d. Global Index Lock",b
+Django,Simple,What is Django?,"a. A web framework, b. A language, c. IDE, d. Database",a
+Django,Medium,What is Django ORM?,"a. Object-Relational Mapping, b. Operational Risk Management, c. Order Return Management, d. Other Resource Module",a
+Django,Hard,How does Django handle migrations?,"a. Automatically, b. Manually, c. With migration files, d. Through raw SQL",c
+Java,Simple,What is Java?,"a. A script, b. Operating System, c. Programming Language, d. Database",c
+Java,Medium,What is the use of the 'final' keyword?,"a. To make a variable constant, b. Define loop, c. Create thread, d. None",a
+Java,Hard,Explain the concept of JVM.,"a. Hardware component, b. Memory manager, c. Java bytecode interpreter, d. None",c
+Web Development,Simple,What is HTML?,"a. Programming, b. Styling, c. Structure, d. Scripting",c
+Web Development,Medium,What does CSS stand for?,"a. Common Style Sheets, b. Colorful Style Sheets, c. Cascading Style Sheets, d. Computer Style Sheets",c
+Web Development,Hard,Explain REST API concept.,"a. Server-side function, b. JavaScript API, c. Web service standard, d. UI framework",c
+UI/UX,Simple,What does UX mean?,"a. User Experience, b. User Experiment, c. User Example, d. None",a
+UI/UX,Medium,What is wireframing?,"a. Designing buttons, b. Creating text, c. Basic layout blueprint, d. Adding color",c
+UI/UX,Hard,Importance of accessibility in UI/UX?,"a. Prettier design, b. Functional for all, c. Feature-rich, d. None",b
+C,Simple,What is a pointer?,"a. Integer, b. Memory address holder, c. Loop, d. Conditional",b
+C,Medium,Define 'function' in C.,"a. Code block, b. Loop, c. Variable, d. Data type",a
+C,Hard,Explain 'dynamic memory allocation'.,"a. Memory block allocation, b. Error handling, c. Loop creation, d. Data storage",a
+C++,Simple,What is a class?,"a. Class is a blueprint, b. Function, c. Array, d. Variable",a
+C++,Medium,What is 'Inheritance'?,"a. Code inheritance, b. Error handling, c. Looping, d. None",a
+C++,Hard,Explain 'Polymorphism'.,"a. Multiple forms, b. Memory handling, c. Array management, d. Loop",a
+React JS,Simple,What is React?,"a. JavaScript library, b. CSS framework, c. HTML language, d. None",a
+React JS,Medium,Explain React hooks.,"a. State management, b. Component lifecycle, c. Style control, d. All",b
+React JS,Hard,What is JSX?,"a. XML, b. JavaScript, c. JavaScript + HTML, d. CSS",c
+SQL,Simple,What is SQL used for?,"a. Database, b. Machine Learning, c. Web Dev, d. Image Processing",a
+SQL,Medium,Explain JOIN operation.,"a. Combine tables, b. Delete tables, c. Create tables, d. Update tables",a
+SQL,Hard,What is normalization?,"a. Reduces redundancy, b. Increases redundancy, c. Deletes data, d. Formats text",a
+DSA,Simple,What is a stack?,"a. Data structure, b. Function, c. Loop, d. Variable",a
+DSA,Medium,Explain 'binary search'.,"a. Sorts list, b. Finds index, c. Binary tree, d. Array",c
+DSA,Hard,What is a hash table?,"a. Stores data, b. Functions, c. Keys data, d. Array",a
+Data Science,Simple,What is data analysis?,"a. Database, b. Analyzing data, c. Building software, d. Coding",b
+Data Science,Medium,Define a data frame.,"a. File format, b. Tabular data, c. Database table, d. Image format",b
+Data Science,Hard,Explain p-value in hypothesis testing.,"a. Significance, b. Hypothesis probability, c. Null hypothesis rejection, d. Size",a
+Statistics,Simple,What is mean?,"a. Median, b. Average, c. Mode, d. Sum",b
+Statistics,Medium,Explain standard deviation.,"a. Variation measure, b. Sum, c. Percentage, d. Average",a
+Statistics,Hard,What is Bayesian inference?,"a. Hypothesis testing, b. Machine learning, c. Probability model, d. None",c
+Machine Learning,Simple,What is supervised learning?,"a. Labeled data, b. Unlabeled data, c. Testing, d. All",a
+Machine Learning,Medium,Define 'overfitting'.,"a. A model that learns the training data too well, causing poor performance on new data., b. A model that fails to capture the underlying pattern in the training data., c. Data points that are significantly different from the majority of the dataset., d. None of the above.",a
+Machine Learning,Hard,Explain 'gradient descent'.,"a. Weights, b. Error measure, c. Optimization, d. Hyperparameter",c
