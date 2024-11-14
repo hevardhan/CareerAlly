@@ -8,7 +8,7 @@ const ConnectBody = () => {
       <div>
         <p className="text-white m-0 p-0 fs-4">Suggestions</p>
         <div className="p-4 d-flex CBox-container gap-4">
-          <CBox name='Name Goes Here' imgPath='./man.png' />
+          <CBox name='Riya Shukla' imgPath='./man.png' />
           <CBox name='Name Goes Here' imgPath='./man.png' />
           <CBox name='Name Goes Here' imgPath='./man.png' />
           <CBox name='Name Goes Here' imgPath='./man.png' />

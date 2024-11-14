@@ -11,11 +11,13 @@ export const SignIn_Email = async (email, password) =>{
 
 export const SignIn_Google = async () => {
     const provider = new GoogleAuthProvider();
-    signInWithRedirect(auth, provider);
-    const result = await getRedirectResult(auth);
-    return result
+    try {
+        const result = await signInWithPopup(auth, provider);
+        return result;
+    } catch (error) {
+        console.error("Error signing in with Google: ", error);
+    }
 };
-
 export const SignIn_Github = async () => {
     const provider = new GithubAuthProvider();
     await signInWithRedirect(auth, provider);

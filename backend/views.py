@@ -22,6 +22,75 @@ import docx2txt
 import re
 from spacy.matcher import Matcher
 
+
+import pandas as pd
+from langchain_community.vectorstores import Chroma
+from langchain_ollama import OllamaEmbeddings
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain.prompts import ChatPromptTemplate, PromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_ollama.chat_models import ChatOllama
+from langchain_core.runnables import RunnablePassthrough
+from langchain.retrievers.multi_query import MultiQueryRetriever
+from IPython.display import display, Markdown
+import warnings
+import os
+
+# Suppress warnings
+warnings.filterwarnings('ignore')
+
+# Set environment variable for protobuf
+os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
+
+# Load the Excel data and initialize the RAG-based chat system
+def initialize_rag_pipeline(excel_path, local_model="ally"):
+    df = pd.read_csv(excel_path)
+    
+    from langchain.schema import Document
+    data = [
+        Document(page_content=f"Job Role: {row['label']}\nDescription: {row['description']}\nRequirements: {row['skills']}")
+        for index, row in df.iterrows()
+    ]
+    
+    # Split documents into chunks
+    from langchain_text_splitters import RecursiveCharacterTextSplitter
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+    chunks = text_splitter.split_documents(data)
+    
+    # Create vector database
+    vector_db = Chroma.from_documents(
+        documents=chunks,
+        embedding=OllamaEmbeddings(model="nomic-embed-text"),
+        collection_name="local-rag"
+    )
+    
+    # Initialize LLM and prompt for retriever
+    llm = ChatOllama(model=local_model)
+    QUERY_PROMPT = PromptTemplate(
+        input_variables=["question"],
+        template="""Consider Yourself as Ally, an Assistance Chatbot. Generate 2
+        alternative versions of the question for better document retrieval.
+        Original question: {question}""",
+    )
+    
+    retriever = MultiQueryRetriever.from_llm(vector_db.as_retriever(), llm, prompt=QUERY_PROMPT)
+    
+    # Create response prompt template
+    response_template = """Answer the question based ONLY on the following context:
+    {context}
+    Question: {question}
+    """
+    response_prompt = ChatPromptTemplate.from_template(response_template)
+
+    # Set up the RAG pipeline chain
+    chain = (
+        {"context": retriever, "question": RunnablePassthrough()}
+        | response_prompt
+        | llm
+        | StrOutputParser()
+    )
+    
+    return chain
 # Load spaCy's pre-trained model
 nlp = spacy.load("en_core_web_sm")
 matcher = Matcher(nlp.vocab)
@@ -113,6 +182,8 @@ def parse_resume(file_path):
     # Extract email and phone number using regex
     email, phone = extract_contact_info(text)
     name = person_name
+    print(list(skills))
+    
     # Output the extracted information
     print("Name:", person_name)
     print("Email:", email)
@@ -133,6 +204,8 @@ answers = None
 quiz_track = None
 jobRoleBool = None
 jobRole = None
+isQuizData = None
+quiz_data = None
 
 def get_answers():
     return answers
@@ -181,7 +254,6 @@ def file_upload(request):
     
     # if user_skills:
     
-
     # Return the response with file URL and extracted skills
     return Response({
         'file_url': file_url,
@@ -202,6 +274,7 @@ def evaluate_quiz(quiz):
                 
     return score
 
+rag_chain = initialize_rag_pipeline(r"D:\New folder\Projects\CareerAlly\python\job.csv")
 
 @api_view(['POST'])
 def ollama_model(request):
@@ -209,32 +282,46 @@ def ollama_model(request):
     global skillsFound
     global jobRole
     global jobRoleBool
+    global skills
+    global isQuizData
+    global quiz_data
+    
     message = request.data.get('message')
-    quiz_data = [
-    {
-        "question": "What is the capital of France?",
-        "options": ["Paris", "London", "Berlin", "Rome"],
-        "correct_answer": "Paris",
-    },
-    {
-        "question": "Which programming language is known as the 'language of the web'?",
-        "options": ["Python", "Java", "JavaScript", "C++"],
-        "correct_answer": "JavaScript",
-    },
-    {
-        "question": "What is 2 + 2?",
-        "options": ["3", "4", "5", "6"],
-        "correct_answer": "4",
-    }
-]
+    
+    df = pd.read_csv(r'D:\New folder\Projects\CareerAlly\python\Skill_MCQs_with_Answers_updated.csv')  # Replace 'questions.csv' with your CSV file path
+    df['Skill'] = df['Skill'].str.lower()
+    # List of skills you want to filter by
+    
+    skills_list = list(skills)  # Replace with your actual skills
+    if skills_list != None :
+        if isQuizData == None or isQuizData == False:
+            try:
 
+                # Filter questions based on the list of skills
+                filtered_questions = df[df['Skill'].isin(skills_list)]
 
+                # Select 3 random questions
+                random_questions = filtered_questions.sample(n=3)
 
+                # Convert the selected questions to the desired format
+                quiz_data = [
+                    {
+                        "question": row['Question'],
+                        "options": row['Choices'].split(", "),  # Assumes choices are comma-separated in the CSV
+                        "correct_answer": row['Answer']
+                    }
+                    for _, row in random_questions.iterrows()
+                ]
+                
+                isQuizData = True
+            except :
+                print("Nothing")
     global quizStart
     
     print(get_quiz_stat())
     if skillsFound:
-        
+
+        print(quiz_data)
         if jobRoleBool:    
             if jobRole == None :
                 jobRole = message
@@ -276,12 +363,15 @@ def ollama_model(request):
                 
 
     else :    
-        response = ollama.chat(model='ally', messages=[
-        {
-            'role': 'user',
-            'content': message,
-        },
-        ])
-        print(response['message']['content'])
+        # response = ollama.chat(model='ally', messages=[
+        # {
+        #     'role': 'user',
+        #     'content': message,
+        # },
+        # ])
+        # print(response['message']['content'])
         
-        return Response({"result": response['message']['content']}, status=status.HTTP_200_OK)
+        # return Response({"result": response['message']['content']}, status=status.HTTP_200_OK)
+    
+        response = rag_chain.invoke(message)
+        return Response({"result": response}, status=status.HTTP_200_OK)
