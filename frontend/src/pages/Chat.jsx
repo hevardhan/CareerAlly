@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
 import axios from "axios";
 import "./css/Chat.css";
 
@@ -9,10 +10,12 @@ const Chat = () => {
   const [messages, setMessages] = useState([]); // To store chat messages
   const [userInput, setUserInput] = useState(""); // To store current user input
   const [file, setFile] = useState(null);
+
+  
   // axios.defaults.withCredentials = true;
   useEffect(() => {
     // Set an initial message from the bot when the component mounts
-    const initialBotMessage = { text: "Hi, how are you?", sender: "bot"};
+    const initialBotMessage = { text: "Hi, how are you?", sender: "bot" };
     setMessages([initialBotMessage]);
   }, []);
 
@@ -34,9 +37,6 @@ const Chat = () => {
         { text: `🔗 Uploading ${file.name}...`, sender: "user" },
       ];
       setMessages(newMessages); // Update the chat with the upload status
-      
-
-
 
       try {
         const response = await axios.post(
@@ -51,11 +51,11 @@ const Chat = () => {
 
         console.log("File uploaded successfully:", response.data);
 
-        const botMessage = {
-          text: `✅ File uploaded successfully: ${file.name}`,
-          sender: "bot",
-        };
-
+const botMessage = {
+  text: `✅ File uploaded successfully: [${file.name}](http://127.0.0.1:8000/media/${file.name})`,
+  sender: "bot",
+};
+        
         const skillsMessage = {
           text: `Extracted skills: ${response.data.extracted_skills.join(
             ", "
@@ -121,26 +121,48 @@ const Chat = () => {
       setMessages(newMessages); // Add user message to state
       setUserInput(""); // Clear input
       try {
-        const response = await axios.post("http://127.0.0.1:8000/api/chatbot/", {
-          message: userInput,
-        });
+        const response = await axios.post(
+          "http://127.0.0.1:8000/api/chatbot/",
+          {
+            message: userInput,
+          }
+        );
         if (response.data.options) {
           const botMessage = { text: response.data.result, sender: "bot" };
-          
+
           // Format the options (assuming options is an array)
-          const optionsText = response.data.options.map((option, index) => `${index + 1}. ${option}`).join("\n");
+          const optionsText = response.data.options
+          .map(option => `- ${option}`)
+          .join("\n");
         
+
           const options = { text: `Options:\n${optionsText}`, sender: "bot" };
-          
+
           setMessages([...newMessages, botMessage, options]); // Add bot reply and options after user message
         } else {
           const botMessage = { text: response.data.result, sender: "bot" };
           setMessages([...newMessages, botMessage]); // Add bot reply after user message
         }
+
+        if (response.data.pdf_url){
+          const botMessage = { text: response.data.result, sender: "bot" };
+
+          console.log("url")
+          // Format the options (assuming options is an array)
+          const optionsText = response.data.pdf_url
         
+
+          const options = { text: `✅ Click here to view your report: [${optionsText}](http://127.0.0.1:8000/media/${optionsText})`, sender: "bot" };
+
+          setMessages([...newMessages, botMessage, options]); // Add bot reply and options after user message
+        }
+
       } catch (error) {
         console.error("Error fetching data from API:", error);
-        const errorMessage = { text: "Oops! Something went wrong. Please try again later.", sender: "bot" };
+        const errorMessage = {
+          text: "Oops! Something went wrong. Please try again later.",
+          sender: "bot",
+        };
         setMessages([...newMessages, errorMessage]); // Add error message if API fails
       }
     }
@@ -185,17 +207,20 @@ const Chat = () => {
         </div>
       </div>
 
-      <div className="midBar-container">
+      <div className="midBar-container" >
         <div className="midBar d-flex justify-content-center align-items-center">
           <div className="message-container w-100 d-flex flex-column align-items-start p-3 text-white">
             {messages.map((msg, index) => (
               <div
                 key={index}
-                className={`message ${msg.sender === "user" ? "user-message" : "bot-message"}`}
+                className={`message ${
+                  msg.sender === "user" ? "user-message" : "bot-message"
+                }`}
               >
-                <p className="m-0 p-0 text-left">{msg.text}</p>
+                <ReactMarkdown>{msg.text}</ReactMarkdown>
               </div>
             ))}
+          {/* <div ref={messagesEndRef} />  */}
           </div>
         </div>
       </div>
@@ -256,4 +281,4 @@ const Chat = () => {
 };
 
 export default Chat;
-``
+``;

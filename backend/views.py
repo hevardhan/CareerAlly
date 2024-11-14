@@ -206,6 +206,7 @@ jobRoleBool = None
 jobRole = None
 isQuizData = None
 quiz_data = None
+skills_list = None
 
 def get_answers():
     return answers
@@ -261,18 +262,141 @@ def file_upload(request):
     })
 
 
-def evaluate_quiz(quiz):
-    global answers
+import io
+import matplotlib.pyplot as plt
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework import status
+import pandas as pd
+import numpy as np
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.styles import getSampleStyleSheet
+
+
+from django.http import FileResponse, HttpResponseNotFound
+from django.conf import settings
+import os
+
+def download_file(request, file_name):
+    # Construct the path to your file
+    file_path = os.path.join(settings.MEDIA_ROOT, file_name)
+    
+    # Ensure the file exists
+    if not os.path.exists(file_path):
+        return HttpResponseNotFound("File not found.")
+
+    # Open the file and return as response with Content-Disposition header to trigger download
+    with open(file_path, 'rb') as file:
+        response = FileResponse(file, as_attachment=True, filename=file_name)
+        return response
+
+
+def evaluate_quiz(quiz, answers):
     score = 0
-    ans = answers[1:]
-    for x in range(len(ans)):
-        print(quiz[x]["correct_answer"] + ans[x])
-        if quiz[x]["correct_answer"] == ans[x]:
-            score = score + 1
-        else :
-            score = score - 1
-                
-    return score
+    incorrect_answers = 0
+    quiz_data = []
+    
+    styles = getSampleStyleSheet()
+
+    # Define styles for headings and normal text
+    style_heading1 = styles['Heading1']  # Predefined Heading1 style
+    style_heading2 = styles['Heading2']  # Predefined Heading2 style
+    style_normal = styles['Normal']      # Predefined Normal style
+
+    # Define measurement unit (inch) for setting margins or elements in the document
+    inch = 72  # 1 inch = 72 points in reportlab
+
+    for i, ans in enumerate(answers[1:]):
+        correct_answer = quiz[i]["correct_answer"]
+        question_data = {
+            "question": quiz[i]["question"],
+            "options": quiz[i]["options"],
+            "correct_answer": correct_answer,
+            "user_answer": ans
+        }
+        
+        if correct_answer == ans:
+            score += 1
+        else:
+            incorrect_answers += 1
+        
+        quiz_data.append(question_data)
+
+    # Generate the pie chart for the score
+    def create_pie_chart(score, incorrect_answers, total_questions):
+        labels = ['Correct', 'Incorrect']
+        sizes = [score, incorrect_answers]
+        colors = ['green', 'red']
+        plt.figure(figsize=(6, 6))
+        plt.pie(sizes, labels=labels, autopct='%1.1f%%', colors=colors)
+        plt.title('Quiz Score Breakdown')
+
+        # Save the pie chart to a byte stream
+        img_stream = io.BytesIO()
+        plt.savefig(img_stream, format='png')
+        img_stream.seek(0)
+        plt.close()
+        return img_stream
+
+    # Create PDF report
+    def create_pdf_report(quiz_data, score, total_questions):
+        
+        import matplotlib
+        matplotlib.use('Agg')
+        pdf_filename = 'quiz_report.pdf'
+        pdf_path = os.path.join(settings.MEDIA_ROOT, pdf_filename)
+        doc = SimpleDocTemplate(pdf_path, pagesize=letter)
+        story = []
+
+        # Add a title to the report
+        story.append(Paragraph(f"Quiz Report: Score {score}/{total_questions}", style_heading1))
+        story.append(Spacer(1, 12))  # Spacer between title and content
+
+        # Add the pie chart for the score
+        pie_chart_stream = create_pie_chart(score, incorrect_answers, total_questions)
+        story.append(Spacer(1, 12))  # Add space before the image
+        story.append(Paragraph("Quiz Score Breakdown:", style_heading2))
+        pie_chart_image = Image(pie_chart_stream)
+        pie_chart_image.drawHeight = 3 * inch
+        pie_chart_image.drawWidth = 4 * inch
+        story.append(pie_chart_image)
+
+        # Add questions, options, correct answers, and user's answers
+        story.append(Spacer(1, 12))
+        for data in quiz_data:
+            question = data["question"]
+            options = data["options"]
+            correct_answer = data["correct_answer"]
+            user_answer = data["user_answer"]
+
+            # Add question
+            story.append(Paragraph(f"Question: {question}", style_heading2))
+
+            # Add options
+            options_text = "<ul>"
+            for option in options:
+                options_text += f"<li>{option}</li>"
+            options_text += "</ul>"
+            story.append(Paragraph(f"Options: {options_text}", style_normal))
+
+            # Add correct and user answers
+            story.append(Paragraph(f"Correct Answer: {correct_answer}", style_normal))
+            story.append(Paragraph(f"Your Answer: {user_answer}", style_normal))
+            story.append(Spacer(1, 12))  # Spacer between questions
+
+        # Build the PDF
+        doc.build(story)
+
+        return pdf_filename
+
+    # Create and save the report
+    pdf_filename = create_pdf_report(quiz_data, score, len(quiz))
+    
+    return score, pdf_filename
+
 
 rag_chain = initialize_rag_pipeline(r"D:\New folder\Projects\CareerAlly\python\job.csv")
 
@@ -285,6 +409,9 @@ def ollama_model(request):
     global skills
     global isQuizData
     global quiz_data
+    global skills_list
+    
+    quiz_num = 7
     
     message = request.data.get('message')
     
@@ -292,7 +419,11 @@ def ollama_model(request):
     df['Skill'] = df['Skill'].str.lower()
     # List of skills you want to filter by
     
-    skills_list = list(skills)  # Replace with your actual skills
+    if skillsFound:
+        skills_list = list(skills)  # Replace with your actual skills
+    
+    
+    
     if skills_list != None :
         if isQuizData == None or isQuizData == False:
             try:
@@ -301,7 +432,7 @@ def ollama_model(request):
                 filtered_questions = df[df['Skill'].isin(skills_list)]
 
                 # Select 3 random questions
-                random_questions = filtered_questions.sample(n=3)
+                random_questions = filtered_questions.sample(n=quiz_num)
 
                 # Convert the selected questions to the desired format
                 quiz_data = [
@@ -325,31 +456,38 @@ def ollama_model(request):
         if jobRoleBool:    
             if jobRole == None :
                 jobRole = message
-                return Response({"result": "Type something to start the quiz"}, status=status.HTTP_200_OK)   
+                return Response({"result": "Type 'start' to start the quiz"}, status=status.HTTP_200_OK)   
             else :
                 if get_quiz_stat() :
                     print("Start")
 
                     add_answer(message)
                     num = get_quiz_track()
-                    if get_quiz_track() < 3:
+                    if get_quiz_track() < quiz_num:
                         set_quiz_track(get_quiz_track()+1)
+    
+                        # options_markdown = "\n".join([f"- {option}" for option in quiz_data[num]['options']])
+    
                         return Response({
                             "result": quiz_data[num]["question"],
                             "options":quiz_data[num]['options']
                         }, status=status.HTTP_200_OK)
                     else:
-                        print(get_answers())
-                        skillsFound = False
-                        sc = evaluate_quiz(quiz_data)
-                        print(sc)
-                        return Response({"result": f"Your Score is {sc}/3"}, status=status.HTTP_200_OK)
+                        score, pdf_filename = evaluate_quiz(quiz_data, get_answers())
+                        
+                        jobRoleBool = False
+                        
+                        # Return the PDF file URL or response
+                        return Response({
+                            "result": f"Your Score is {score}/{quiz_num}",
+                            "pdf_url": pdf_filename  # Make sure this is accessible by the frontend
+                        }, status=status.HTTP_200_OK)
             
         else : 
             if message.lower() == "yes" :
                 print("YES")
                 quizStart = False
-                return HttpResponse("hi")
+                return Response({"result": "This Feature is still under development ! Kindly type 'NO' to start with the quiz"}, status=status.HTTP_200_OK)  
             
             elif message.lower() == "no" :
                 jobRoleBool = True
