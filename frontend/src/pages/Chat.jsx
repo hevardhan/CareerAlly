@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./css/Chat.css";
 
@@ -9,59 +9,79 @@ const Chat = () => {
   const [messages, setMessages] = useState([]); // To store chat messages
   const [userInput, setUserInput] = useState(""); // To store current user input
   const [file, setFile] = useState(null);
+  // axios.defaults.withCredentials = true;
+  useEffect(() => {
+    // Set an initial message from the bot when the component mounts
+    const initialBotMessage = { text: "Hi, how are you?", sender: "bot"};
+    setMessages([initialBotMessage]);
+  }, []);
 
   const handleFileChange = (e) => {
-      const selectedFile = e.target.files[0];
-      if (selectedFile) {
-          setFile(selectedFile);  // Set the file selected by the user
-          handleFileUpload(selectedFile);  // Upload the file immediately after selection
-      }
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      setFile(selectedFile); // Set the file selected by the user
+      handleFileUpload(selectedFile); // Upload the file immediately after selection
+    }
   };
 
   const handleFileUpload = async (file) => {
     if (file) {
-      // Create form data to send the file to the backend
       const formData = new FormData();
       formData.append("file", file);
-  
-      // Add user message indicating the file is being uploaded
-      const newMessages = [...messages, { text: `🔗 Uploading ${file.name}...`, sender: "user" }];
+
+      const newMessages = [
+        ...messages,
+        { text: `🔗 Uploading ${file.name}...`, sender: "user" },
+      ];
       setMessages(newMessages); // Update the chat with the upload status
-  
+      
+
+
+
       try {
-        // Send the file to the server for uploading
-        const response = await axios.post("http://localhost:8000/api/upload/", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-  
+        const response = await axios.post(
+          "http://127.0.0.1:8000/api/upload/",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
         console.log("File uploaded successfully:", response.data);
-  
-        // Add bot message indicating the file was uploaded
-        const botMessage = { text: `✅ File uploaded successfully: ${file.name}`, sender: "bot" };
-  
-        // Add bot message with the extracted skills
-        const skillsMessage = { 
-          text: `Extracted skills: ${response.data.extracted_skills.join(', ')}`, 
-          sender: "bot" 
+
+        const botMessage = {
+          text: `✅ File uploaded successfully: ${file.name}`,
+          sender: "bot",
         };
-  
-        // Update chat messages: file uploaded first, then extracted skills
-        setMessages([...newMessages, botMessage, skillsMessage]);
-  
+
+        const skillsMessage = {
+          text: `Extracted skills: ${response.data.extracted_skills.join(
+            ", "
+          )}`,
+          sender: "bot",
+        };
+
+        const message2 = {
+          text: `Do you want to add more skills?`,
+          sender: "bot",
+        };
+
+        setMessages([...newMessages, botMessage, skillsMessage, message2]);
       } catch (error) {
         console.error("Error uploading file:", error);
-  
-        // In case of error, send an error message from the bot
-        const errorMessage = { text: `❌ Failed to upload ${file.name}. Please try again.`, sender: "bot" };
-        setMessages([...newMessages, errorMessage]); // Add bot error message after the user message
+
+        const errorMessage = {
+          text: `❌ Failed to upload ${file.name}. Please try again.`,
+          sender: "bot",
+        };
+        setMessages([...newMessages, errorMessage]);
       }
     } else {
       alert("Please select a file first!");
     }
   };
-  
 
   const handleEdit = () => {
     setTempChatName(chatName);
@@ -100,16 +120,24 @@ const Chat = () => {
       const newMessages = [...messages, { text: userInput, sender: "user" }];
       setMessages(newMessages); // Add user message to state
       setUserInput(""); // Clear input
-
       try {
-        // Call the API with the user's message
         const response = await axios.post("http://127.0.0.1:8000/api/chatbot/", {
           message: userInput,
         });
-
-        // Log and set the bot response to the state
-        const botMessage = { text: response.data.result, sender: "bot" };
-        setMessages([...newMessages, botMessage]); // Add bot reply after user message
+        if (response.data.options) {
+          const botMessage = { text: response.data.result, sender: "bot" };
+          
+          // Format the options (assuming options is an array)
+          const optionsText = response.data.options.map((option, index) => `${index + 1}. ${option}`).join("\n");
+        
+          const options = { text: `Options:\n${optionsText}`, sender: "bot" };
+          
+          setMessages([...newMessages, botMessage, options]); // Add bot reply and options after user message
+        } else {
+          const botMessage = { text: response.data.result, sender: "bot" };
+          setMessages([...newMessages, botMessage]); // Add bot reply after user message
+        }
+        
       } catch (error) {
         console.error("Error fetching data from API:", error);
         const errorMessage = { text: "Oops! Something went wrong. Please try again later.", sender: "bot" };
@@ -173,17 +201,16 @@ const Chat = () => {
       </div>
 
       <div className="downBar-chat d-flex justify-content-between align-items-center w-100 p-3">
-        {/* Hidden file input */}
         <input
           type="file"
           accept=".pdf,.doc,.docx"
           id="fileInput"
-          style={{ display: "none" }}  // Hide the input field
-          onChange={handleFileChange}  // Handle file selection
+          style={{ display: "none" }}
+          onChange={handleFileChange}
         />
         <div
           className="attach"
-          onClick={() => document.getElementById("fileInput").click()}  // Trigger file input click on attach div
+          onClick={() => document.getElementById("fileInput").click()}
         >
           <svg
             viewBox="0 0 24 24"
@@ -229,3 +256,4 @@ const Chat = () => {
 };
 
 export default Chat;
+``
