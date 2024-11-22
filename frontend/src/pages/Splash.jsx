@@ -5,7 +5,7 @@ const Splash = () => {
     <section className="justify-content-center d-flex flex-column align-items-center text-center">
       <img src="./homeLogo.png" alt="" srcset="" />
       <a href="home">
-        <p className="text-white">home</p>
+        <p className="text-white">Click here</p>
       </a>
       {/* <h1 className='text-white'>CareerAlly</h1> */}
     </section>

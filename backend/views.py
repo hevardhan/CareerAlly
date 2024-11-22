@@ -411,7 +411,7 @@ def ollama_model(request):
     global quiz_data
     global skills_list
     
-    quiz_num = 7
+    quiz_num = 3
     
     message = request.data.get('message')
     

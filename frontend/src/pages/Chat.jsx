@@ -40,7 +40,7 @@ const Chat = () => {
 
       try {
         const response = await axios.post(
-          "http://127.0.0.1:8000/api/upload/",
+          "http://4.240.98.67:8000/api/upload/",
           formData,
           {
             headers: {
@@ -52,7 +52,7 @@ const Chat = () => {
         console.log("File uploaded successfully:", response.data);
 
 const botMessage = {
-  text: `✅ File uploaded successfully: [${file.name}](http://127.0.0.1:8000/media/${file.name})`,
+  text: `✅ File uploaded successfully: [${file.name}](http://4.240.98.67:8000/media/${file.name})`,
   sender: "bot",
 };
         
@@ -122,7 +122,7 @@ const botMessage = {
       setUserInput(""); // Clear input
       try {
         const response = await axios.post(
-          "http://127.0.0.1:8000/api/chatbot/",
+          "http://4.240.98.67:8000/api/chatbot/",
           {
             message: userInput,
           }
@@ -152,7 +152,7 @@ const botMessage = {
           const optionsText = response.data.pdf_url
         
 
-          const options = { text: `✅ Click here to view your report: [${optionsText}](http://127.0.0.1:8000/media/${optionsText})`, sender: "bot" };
+          const options = { text: `✅ Click here to view your report: [${optionsText}](http://4.240.98.67:8000/media/${optionsText})`, sender: "bot" };
 
           setMessages([...newMessages, botMessage, options]); // Add bot reply and options after user message
         }
