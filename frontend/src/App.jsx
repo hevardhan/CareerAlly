@@ -13,6 +13,8 @@ import { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { auth } from "./firebase/firebase";
+import Recruiter from "./pages/Recruiter";
+import AddJob from "./pages/AddJob";
 
 // Protected Route Component
 const ProtectedRoute = ({ user, children }) => {
@@ -56,23 +58,27 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Splash />} />
-        <Route path="signup" element={<NoAuthRoute user={user}><SignUp /></NoAuthRoute>} />
+        <Route path="/" element={<Recruiter />} />
+        <Route path="add-job" element={<AddJob />} />
+        
+        {/* <Route path="/" element={<Splash />} /> */}
+        {/* <Route path="signup" element={<NoAuthRoute user={user}><SignUp /></NoAuthRoute>} /> */}
         
         {/* NoAuthRoute for /login */}
-        <Route path="login" element={<NoAuthRoute user={user}><Login /></NoAuthRoute>} />
+        {/* <Route path="login" element={<NoAuthRoute user={user}><Login /></NoAuthRoute>} /> */}
         
-        <Route path="home" element={<HomeSpline />} />
-        <Route path="about" element={<About />} />
+        {/* <Route path="home" element={<HomeSpline />} /> */}
+        {/* <Route path="about" element={<About />} /> */}
         
         {/* Protected Route for /chat */}
-        <Route path="chat" element={<ProtectedRoute user={user}><Chat /></ProtectedRoute>} />
+        {/* <Route path="chat" element={<ProtectedRoute user={user}><Chat /></ProtectedRoute>} /> */}
 
         {/* Protected Route for /convo */}
-        <Route path="convo" element={<ProtectedRoute user={user}><Conversations /></ProtectedRoute>} />
+        {/* <Route path="convo" element={<ProtectedRoute user={user}><Conversations /></ProtectedRoute>} /> */}
         
-        <Route path="connect" element={<Connections />} />
-        <Route path="settings" element={<Settings />} />
+        {/* <Route path="connect" element={<Connections />} /> */}
+        {/* <Route path="settings" element={<Settings />} /> */}
+        
       </Routes>
       <ToastContainer />
     </BrowserRouter>

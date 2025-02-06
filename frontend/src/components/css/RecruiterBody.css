@@ -1,0 +1,30 @@
+.rec-body{
+    height: 80vh;
+    /* background-color: white; */
+    color: white;
+    margin-top: 10px;
+}
+
+.post-container{
+    gap: 2rem;
+    width: auto;
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #ccc transparent;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+.plus{
+    border: solid;
+    border-radius: 20px;
+}
+
+.card:hover {
+    cursor: pointer;
+}
