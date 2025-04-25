@@ -12,7 +12,7 @@ const About = () => {
     event.preventDefault();
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/addthe/${input}/`
+        `http://10.11.18.243:8000/api/addthe/${input}/`
       );
       setResult(response.data.result);
     } catch (error) {
